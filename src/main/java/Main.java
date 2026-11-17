@@ -1,33 +1,40 @@
+import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.nio.ByteBuffer;
 
 public class Main {
 
-  static void main(String[] args) {
-    System.err.println("Logs from your program will appear here!");
+  public static final int PORT = 9092;
 
-    ServerSocket serverSocket = null;
-    Socket clientSocket = null;
-    int port = 9092;
-    try {
-      serverSocket = new ServerSocket(port);
-      // Since the tester restarts your program quite often, setting SO_REUSEADDR
-      // ensures that we don't run into 'Address already in use' errors
+  static void main(String[] arg) {
+    System.err.println("Logs from your program will appear here!");
+    try (ServerSocket serverSocket = new ServerSocket(PORT)) {
       serverSocket.setReuseAddress(true);
-      // Wait for connection from client.
-      clientSocket = serverSocket.accept();
-      clientSocket.getOutputStream().write(new byte[]{0, 0, 0, 0, 0, 0, 0, 7});
-    } catch (IOException e) {
-      System.out.println("IOException: " + e.getMessage());
-    } finally {
-      try {
-        if (clientSocket != null) {
-          clientSocket.close();
+      try (Socket client = serverSocket.accept()) {
+        DataInputStream inputStream = new DataInputStream(client.getInputStream());
+        int messageSize = inputStream.readInt();
+
+        if (messageSize < 0) {
+          throw new IOException("Message Size is 0");
         }
-      } catch (IOException e) {
-        System.out.println("IOException: " + e.getMessage());
+        byte[] messageInBytes = new byte[messageSize];
+        inputStream.readFully(messageInBytes);
+        RequestHeader requestHeader = new RequestHeader(messageInBytes);
+
+        byte[] response = ByteBuffer.allocate(8)
+            .putInt(4)
+            .putInt(requestHeader.getCorrelationId())
+            .array();
+
+        OutputStream outputStream = client.getOutputStream();
+        outputStream.write(response);
+        outputStream.close();
       }
+    } catch (IOException e) {
+      System.err.println("IOException: " + e.getMessage());
     }
   }
 }
