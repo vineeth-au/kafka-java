@@ -1,12 +1,11 @@
-# Kafka Broker — Java
+# Kafka Broker
 
-A simplified implementation of an Apache Kafka-compatible broker, written in Java as part of the [CodeCrafters Build Your Own Kafka](https://codecrafters.io/challenges/kafka) challenge. The primary objective of this project is to understand how Kafka works internally by implementing parts of its binary wire protocol, handling client requests, and constructing protocol-compliant responses.
+A simplified implementation of an Apache Kafka-compatible broker, written in Java as part of the [Build Your Own Kafka](https://codecrafters.io/challenges/kafka) challenge. The primary objective of this project is to understand how Kafka works internally by implementing parts of its binary wire protocol, handling client requests, and constructing protocol-compliant responses.
 
 ## Understanding Kafka's Wire Protocol
 A wire protocol defines how applications exchange and interpret data over a network. TCP provides a reliable, ordered stream of bytes, but it does not define application-level message boundaries or the meaning of those bytes.
 
 Kafka uses its own binary wire protocol to define how clients and brokers communicate. A Kafka request follows this general structure:
-
 
 ```text
 +------------------------------+
