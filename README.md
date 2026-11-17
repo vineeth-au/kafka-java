@@ -1,32 +1,42 @@
-This is a starting point for Java solutions to the
-["Build Your Own Kafka" Challenge](https://codecrafters.io/challenges/kafka).
+# Kafka Broker — Java
 
-Building a toy Kafka clone that's capable of accepting and responding to ApiVersions & Fetch API requests.
+A simplified implementation of an Apache Kafka-compatible broker, written in Java as part of the [CodeCrafters Build Your Own Kafka](https://codecrafters.io/challenges/kafka) challenge. The primary objective of this project is to understand how Kafka works internally by implementing parts of its binary wire protocol, handling client requests, and constructing protocol-compliant responses.
 
-You'll also learn about encoding and decoding messages using the Kafka wire protocol. You'll also learn
-about handling the network protocol, event loops, TCP sockets and more.
+## Understanding Kafka's Wire Protocol
+A wire protocol defines how applications exchange and interpret data over a network. TCP provides a reliable, ordered stream of bytes, but it does not define application-level message boundaries or the meaning of those bytes.
 
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
+Kafka uses its own binary wire protocol to define how clients and brokers communicate. A Kafka request follows this general structure:
 
-# Passing the first stage
 
-The entry point for your Kafka implementation is in `src/main/java/Main.java`.
-Study and uncomment the relevant code, and then run the command below to execute
-the tests on our servers:
-
-```sh
-codecrafters submit
+```text
++------------------------------+
+| Message Size (4 bytes)       |
++------------------------------+
+| Request Header               |
+|  - API Key                   |
+|  - API Version               |
+|  - Correlation ID            |
+|  - Client ID                 |
+|  - Tagged Fields (optional)  |
++------------------------------+
+| Request Body                 |
+|  - API-specific fields       |
++------------------------------+
 ```
 
-That's all!
+The message size specifies the number of bytes following the four-byte size field. The request header identifies the operation, its version, and the request's correlation ID. The request body contains operation-specific data. Kafka responses use a similar structure, containing a message size, response header, and API-specific response body. The precise field layout depends on the API version and the corresponding header version.
 
-# Stage 2 & beyond
+For further details, see the [Apache Kafka Protocol Specification](https://kafka.apache.org/protocol.html).
 
-Note: This section is for stages 2 and beyond.
+# How to Run
 
-1. Ensure you have `mvn` installed locally
-1. Run `./your_program.sh` to run your Kafka broker, which is implemented in
-   `src/main/java/Main.java`.
-1. Run `codecrafters submit` to submit your solution to CodeCrafters. Test
-   output will be streamed to your terminal.
+### Prerequisites
+- Java 25
+- Apache Maven
+
+### Running the Broker
+Run the following command from the project root:
+```bash
+./your_program.sh
+```
+The entry point for the Kafka broker is `src/main/java/Main.java`.
