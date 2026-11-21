@@ -37,7 +37,8 @@ final class ClientHandler implements Runnable {
         handleRequests(client, inputStream);
       }
     } catch (EOFException e) {
-      System.err.println("Client Disconnected " + e.getMessage());
+      // TODO: This can be a DEBUG Level statement
+      // System.err.println("Client Disconnected");
     }
   }
 
@@ -61,10 +62,10 @@ final class ClientHandler implements Runnable {
 
   void stop() {
     try {
+      client.get
       client.close();
     } catch (IOException e) {
-      System.out.println("ClientHandler Stopper "+e);
+      System.out.println("ClientHandler Stopper");
     }
   }
-
 }

@@ -27,7 +27,9 @@ public final class Broker {
       }
 
     } catch (IOException | RuntimeException e) {
-      System.err.println("Exception: " + e.getMessage());
+      if (serverActive) {
+        System.err.println("Broker failure: " + e);
+      }
     }
   }
 
