@@ -62,7 +62,6 @@ final class ClientHandler implements Runnable {
 
   void stop() {
     try {
-      client.get
       client.close();
     } catch (IOException e) {
       System.out.println("ClientHandler Stopper");
