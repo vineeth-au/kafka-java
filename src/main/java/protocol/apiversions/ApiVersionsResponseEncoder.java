@@ -46,7 +46,7 @@ public class ApiVersionsResponseEncoder {
         payload.writeShort(version.apiKey());
         payload.writeShort(version.minSupportedApiVersion());
         payload.writeShort(version.maxSupportedApiVersion());
-        payload.writeShort(version.tagBuffer());
+        payload.writeByte(version.tagBuffer());
       }
       payload.writeInt(response.body().throttleTime());
       payload.writeByte(response.body().tagBuffer());
