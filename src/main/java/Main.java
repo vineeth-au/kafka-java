@@ -1,8 +1,8 @@
-import server.KafkaServer;
+import server.Broker;
 
 void main() {
-  KafkaServer kafkaServer = new KafkaServer();
-  Runtime.getRuntime().addShutdownHook(new Thread(kafkaServer::stopServer));
+  Broker broker = new Broker();
+  Runtime.getRuntime().addShutdownHook(new Thread(broker::stop));
 
-  kafkaServer.startServer();
+  broker.start();
 }

@@ -1,8 +1,8 @@
 package protocol.apiversions;
 
-import static server.Constants.MAX_SUPPORTED_VERSION;
-import static server.Constants.NO_ERROR;
-import static server.Constants.UNSUPPORTED_VERSION;
+import static util.Constants.MAX_SUPPORTED_VERSION;
+import static util.Constants.NO_ERROR;
+import static util.Constants.UNSUPPORTED_VERSION;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -11,7 +11,7 @@ import java.util.List;
 import protocol.RequestHeader;
 import protocol.ResponseHeader;
 
-public class ApiVersionsResponseEncoder {
+public final class ApiVersionsResponseEncoder {
 
   public ApiVersionsResponse encodeResponse(ApiVersionsRequest request) {
 

@@ -1,4 +1,4 @@
-package server;
+package util;
 
 public final class Constants {
 
